@@ -2,6 +2,7 @@
 (() => {
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const store = {
     get(k) { try { return localStorage.getItem(k); } catch { return null; } },
     set(k, v) { try { localStorage.setItem(k, v); } catch { /* sem storage */ } },
@@ -190,9 +191,28 @@
     deckList.hidden = false;
   }
 
-  /* ---------- Intro: entrar (sempre com som) ----------
+  /* ---------- Intro: boot + entrar (sempre com som) ----------
      O botão só libera quando o set está pronto: assim o play acontece no
      próprio clique e o navegador não bloqueia o áudio. */
+  const BOOT = [
+    ["> MERCURIO.SYS v2.6", ""],
+    ["> carregando bassline", " ........ [OK]"],
+    ["> sincronizando offbeat", " ...... [OK]"],
+    ["> BPM 145", " ................. [OK]"],
+    ["> sinal: zona leste · SP", " ...... [OK]"],
+  ];
+  const boot = $("#boot");
+  if (reduced) boot.innerHTML = BOOT.map(([a, b]) => `${a}<span class="ok">${b}</span>`).join("\n");
+  else {
+    let i = 0;
+    const line = () => {
+      if (i >= BOOT.length || document.documentElement.classList.contains("is-loaded")) return;
+      const [a, b] = BOOT[i++];
+      boot.innerHTML += (i > 1 ? "\n" : "") + a + `<span class="ok">${b}</span>`;
+      setTimeout(line, 260);
+    };
+    setTimeout(line, 200);
+  }
   const enterBtn = $("#enterSound");
   const unlock = () => {
     if (!enterBtn.disabled) return;
@@ -235,6 +255,103 @@
     const sibs = [...el.parentElement.children].filter((c) => c.classList.contains("reveal"));
     el.style.setProperty("--d", `${Math.min(sibs.indexOf(el), 6) * 0.08}s`);
     io.observe(el);
+  });
+
+  /* ---------- Brilho do cursor ---------- */
+  const glow = $(".cursor-glow");
+  let mx = innerWidth / 2, my = innerHeight / 2;
+  if (matchMedia("(hover: hover)").matches && !reduced) {
+    let gx = mx, gy = my;
+    addEventListener("pointermove", (e) => { mx = e.clientX; my = e.clientY; }, { passive: true });
+    const follow = () => {
+      gx += (mx - gx) * 0.12; gy += (my - gy) * 0.12;
+      glow.style.transform = `translate3d(${gx}px, ${gy}px, 0)`;
+      requestAnimationFrame(follow);
+    };
+    follow();
+  }
+
+  /* ---------- HUD: relógio ---------- */
+  const clock = $("#clock");
+  const tick = () => {
+    clock.textContent = new Date().toLocaleTimeString("pt-BR", { timeZone: "America/Sao_Paulo", hour12: false });
+  };
+  tick(); setInterval(tick, 1000);
+
+  /* ---------- Grid em perspectiva + partículas (hero) ---------- */
+  const canvas = $("#grid");
+  const ctx = canvas.getContext("2d");
+  const hero = $(".hero");
+  let W, H, dpr, parts = [], heroVisible = true, offset = 0;
+  const COLORS = ["0,240,255", "180,77,255", "255,43,214", "232,255,58", "230,236,245"];
+  const resize = () => {
+    dpr = Math.min(devicePixelRatio || 1, 2);
+    W = canvas.width = hero.offsetWidth * dpr;
+    H = canvas.height = hero.offsetHeight * dpr;
+    const n = Math.round(Math.min(120, (hero.offsetWidth * hero.offsetHeight) / 11000));
+    parts = Array.from({ length: n }, () => ({
+      x: Math.random() * W, y: Math.random() * H * 0.62,
+      s: (Math.random() * 1.3 + 0.4) * dpr, v: (Math.random() * 0.5 + 0.15) * dpr,
+      c: COLORS[(Math.random() * COLORS.length) | 0], t: Math.random() * Math.PI * 2,
+    }));
+  };
+  resize();
+  addEventListener("resize", resize);
+  new IntersectionObserver(([e]) => { heroVisible = e.isIntersecting; }).observe(hero);
+  const draw = () => {
+    if (heroVisible) {
+      ctx.clearRect(0, 0, W, H);
+      const horizon = H * 0.64 + (my / innerHeight - 0.5) * 20 * dpr;
+      const vx = W / 2 + (mx / innerWidth - 0.5) * 80 * dpr;
+      // chão
+      const g = ctx.createLinearGradient(0, horizon, 0, H);
+      g.addColorStop(0, "rgba(255,43,214,0)");
+      g.addColorStop(1, "rgba(122,44,255,.18)");
+      ctx.fillStyle = g;
+      ctx.fillRect(0, horizon, W, H - horizon);
+      ctx.lineWidth = dpr;
+      // linhas que convergem no ponto de fuga
+      ctx.strokeStyle = "rgba(0,240,255,.28)";
+      ctx.beginPath();
+      for (let i = -14; i <= 14; i++) {
+        ctx.moveTo(vx + i * W * 0.012, horizon);
+        ctx.lineTo(W / 2 + i * W * 0.11, H);
+      }
+      ctx.stroke();
+      // linhas horizontais andando na direção de quem vê
+      offset = (offset + 0.006) % 1;
+      for (let i = 0; i < 14; i++) {
+        const k = ((i + offset) / 14) ** 2.2;
+        const y = horizon + (H - horizon) * k;
+        ctx.strokeStyle = `rgba(255,43,214,${0.1 + k * 0.45})`;
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+      }
+      // linha do horizonte
+      ctx.strokeStyle = "rgba(0,240,255,.7)";
+      ctx.shadowColor = "#00f0ff"; ctx.shadowBlur = 14 * dpr;
+      ctx.beginPath(); ctx.moveTo(0, horizon); ctx.lineTo(W, horizon); ctx.stroke();
+      ctx.shadowBlur = 0;
+      // partículas subindo (vapor de mercúrio)
+      for (const p of parts) {
+        p.y -= p.v; p.t += 0.04;
+        if (p.y < -10) { p.y = horizon; p.x = Math.random() * W; }
+        ctx.fillStyle = `rgba(${p.c},${0.35 + Math.sin(p.t) * 0.3})`;
+        ctx.fillRect(p.x, p.y, p.s * 1.6, p.s * 1.6);
+      }
+    }
+    if (!reduced) requestAnimationFrame(draw);
+  };
+  draw();
+
+  /* ---------- Tilt no retrato ---------- */
+  $$(".tilt").forEach((el) => {
+    if (reduced || !matchMedia("(hover: hover)").matches) return;
+    el.addEventListener("pointermove", (e) => {
+      const r = el.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
+      el.style.transform = `perspective(900px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg)`;
+    });
+    el.addEventListener("pointerleave", () => { el.style.transform = ""; });
   });
 
   /* ---------- Vídeos: arquivos locais + Google Drive ---------- */
@@ -348,6 +465,8 @@
       if (el.dataset.pt === undefined) el.dataset.pt = el.innerHTML;
       el.innerHTML = lang === "en" ? el.dataset.en : el.dataset.pt;
     });
+    // texto do glitch acompanha o idioma
+    $$(".glitch").forEach((el) => { el.dataset.text = el.textContent; });
     document.documentElement.lang = lang === "en" ? "en" : "pt-BR";
     const [a, , b] = langBtn.children;
     a.textContent = lang === "en" ? "EN" : "PT";
