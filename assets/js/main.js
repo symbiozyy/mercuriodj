@@ -479,19 +479,6 @@
   });
   if (lang === "en") applyLang();
 
-  /* ---------- Clipboard ---------- */
-  const copy = async (text) => {
-    try { await navigator.clipboard.writeText(text); return true; }
-    catch {
-      const ta = Object.assign(document.createElement("textarea"), { value: text });
-      ta.style.position = "fixed"; ta.style.opacity = "0";
-      document.body.append(ta); ta.select();
-      const ok = document.execCommand("copy");
-      ta.remove();
-      return ok;
-    }
-  };
-
   /* ---------- Pedido de booking (WhatsApp) ---------- */
   const WHATSAPP = "5511940530379";
   const form = $("#brief");
@@ -522,19 +509,6 @@
     window.open(url, "_blank", "noopener");
   });
   $$("input, textarea", form).forEach((f) => f.addEventListener("input", () => f.classList.remove("is-invalid")));
-
-  /* ---------- Bio curta (press kit) ---------- */
-  const BIO = {
-    pt: "Mercúrio é o projeto de progressive / psytrance de Gilliard Rocha, 24 anos, da zona leste de São Paulo. Basslines agressivos e elementos em offbeat seguram a pista a 145 BPM. Booking: (11) 94053-0379 · djm3036@gmail.com · @_mercuriodj",
-    en: "Mercúrio is the progressive / psytrance project of Gilliard Rocha, 24, from the east side of São Paulo. Aggressive basslines and offbeat elements hold the dancefloor at 145 BPM. Booking: +55 11 94053-0379 · djm3036@gmail.com · @_mercuriodj",
-  };
-  const bioBtn = $("#copyBio");
-  bioBtn.addEventListener("click", async () => {
-    const type = $(".kit__type", bioBtn);
-    const ok = await copy(BIO[lang]);
-    type.textContent = ok ? t("copiada ✓", "copied ✓") : "—";
-    setTimeout(() => { type.textContent = t("clique para copiar", "click to copy"); }, 2200);
-  });
 
   $("#year").textContent = new Date().getFullYear();
 })();
