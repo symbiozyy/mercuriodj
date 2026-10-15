@@ -162,7 +162,7 @@
           <span class="deck__time" id="deckTime">00:00</span>
         </div>
         <div class="deck__wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-        <!-- O src é montado pelo main.js a partir de SET_URL -->
+        <!-- O src é montado pelo main.js (PROFILE_URL + set em destaque FEATURED) -->
         <iframe class="deck__player" id="scPlayer" title="Set do Mercúrio no SoundCloud" allow="autoplay" loading="eager"></iframe>
         <p class="deck__label" data-en="All sets">Todos os sets</p>
         <ol class="deck__list" id="deckList" hidden></ol>
@@ -204,8 +204,8 @@
           <div class="reel__phone">
             <img class="reel__poster" alt="" loading="lazy">
             <button class="reel__play" type="button" aria-label="Reproduzir vídeo do Google Drive"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
-            <button class="reel__stop" type="button" aria-label="Fechar vídeo" data-en="■ stop">■ parar</button>
           </div>
+          <button class="reel__stop" type="button" data-en="■ Close video">■ Fechar vídeo</button>
           <div class="reel__meta">
             <span class="reel__tag">Drive · Live</span>
             <h3>Live set</h3>

@@ -11,11 +11,11 @@
   const t = (pt, en) => (lang === "en" ? en : pt);
 
   /* ---------- Set do site (SoundCloud) ----------
-     SET_URL é o set que toca ao entrar com som. PROFILE_URL alimenta a lista
-     de sets do deck. Se o link curto (on.soundcloud.com) não carregar, troque
-     pela URL completa do set: soundcloud.com/mercurio-dj/nome-do-set */
-  const SET_URL = "https://on.soundcloud.com/yYyecvVZCT9q5vQxS1";
+     O deck carrega as faixas do perfil (PROFILE_URL), monta a lista "Todos os
+     sets" e já abre no set em destaque: a faixa cujo título contém FEATURED.
+     Para abrir em outro set, troque FEATURED (ex.: "New Set"). */
   const PROFILE_URL = "https://soundcloud.com/mercurio-dj";
+  const FEATURED = "The Next Chapter";
   const MUSIC_VOLUME = 70; // 0–100
   const FADE_MS = 1400;
   const soundBtn = $("#soundBtn");
@@ -25,22 +25,21 @@
   const deckHint = $("#deckHint");
   const deckList = $("#deckList");
 
-  const widgetSrc = (url, visual = false) =>
-    "https://w.soundcloud.com/player/?" + new URLSearchParams({
-      url, color: "#00f0ff", auto_play: "false", hide_related: "true", show_comments: "false",
-      show_user: "true", show_reposts: "false", show_teaser: "false", visual: String(visual),
-    });
+  const PLAYER_OPTS = { color: "#00f0ff", hide_related: true, show_comments: false, show_user: true, show_reposts: false, show_teaser: false, visual: false };
+  const widgetSrc = (url) =>
+    "https://w.soundcloud.com/player/?" + new URLSearchParams({ url, auto_play: "false", ...PLAYER_OPTS });
   const fmt = (ms) => {
     const s = Math.max(0, Math.floor(ms / 1000)), h = Math.floor(s / 3600);
     const mm = String(Math.floor((s % 3600) / 60)).padStart(2, "0"), ss = String(s % 60).padStart(2, "0");
     return h ? `${h}:${mm}:${ss}` : `${mm}:${ss}`;
   };
+  const norm = (s) => String(s).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 
   const music = (() => {
     const frame = $("#scPlayer");
     const SC = window.SC;
     let widget = null, ready = false, playing = false, wanted = false, ducked = false;
-    let vol = 0, fadeTimer = 0, pauseTimer = 0, playCheck = 0, currentId = null;
+    let vol = 0, fadeTimer = 0, playCheck = 0, currentId = null;
 
     const setVol = (v) => { vol = v; widget?.setVolume(v); };
     const ramp = (to, done) => {
@@ -58,7 +57,6 @@
       $$(".deck__item", deckList).forEach((b) => b.classList.toggle("is-current", b.dataset.id === String(currentId)));
     };
     const sync = () => {
-      clearTimeout(pauseTimer);
       if (!ready) { paint(); return; }
       if (wanted && !ducked) {
         if (!playing) setVol(0);
@@ -86,24 +84,31 @@
       return { start() {}, toggle() {}, duck() {}, load() {} };
     }
 
-    frame.src = widgetSrc(SET_URL);
+    frame.src = widgetSrc(PROFILE_URL);
     widget = SC.Widget(frame);
-    // se o link do set não responder, cai para o perfil (todas as faixas)
-    let fellBack = false;
-    const fallback = setTimeout(() => {
-      if (ready) return;
-      fellBack = true;
-      widget.load(PROFILE_URL, { auto_play: false, color: "#00f0ff", show_comments: false, hide_related: true });
-    }, 9000);
-
-    widget.bind(SC.Widget.Events.READY, () => {
-      ready = true;
-      clearTimeout(fallback);
-      readCurrent();
-      sync();
-      if (fellBack) loadList(null);
-    });
+    const markReady = () => { ready = true; deckHint.textContent = ""; readCurrent(); sync(); };
+    // o widget do perfil entrega as faixas aos poucos: espera completar,
+    // monta a lista e troca o player para o set em destaque
+    const boot = () => {
+      let tries = 0;
+      const read = () => widget.getSounds((sounds) => {
+        sounds = sounds || [];
+        const list = sounds.filter((s) => s && s.title && s.permalink_url);
+        if ((!list.length || list.length < sounds.length) && tries++ < 12) { setTimeout(read, 500); return; }
+        render(list);
+        const pick = list.find((s) => norm(s.title).includes(norm(FEATURED)));
+        if (pick) widget.load(pick.permalink_url, { ...PLAYER_OPTS, auto_play: false, callback: markReady });
+        else markReady();
+      });
+      read();
+    };
+    let booted = false;
+    widget.bind(SC.Widget.Events.READY, () => { if (!booted) { booted = true; boot(); } });
+    const slow = setTimeout(() => {
+      if (!ready) deckHint.textContent = t("Carregando o set…", "Loading the set…");
+    }, 4000);
     widget.bind(SC.Widget.Events.PLAY, () => {
+      clearTimeout(slow);
       playing = true;
       deckHint.textContent = "";
       readCurrent();
@@ -128,37 +133,15 @@
       load(url) {
         wanted = true; ducked = false;
         deckHint.textContent = "";
-        widget.load(url, { auto_play: true, color: "#00f0ff", show_comments: false, hide_related: true,
-          callback: () => { setVol(MUSIC_VOLUME); readCurrent(); } });
+        widget.load(url, { ...PLAYER_OPTS, auto_play: true,
+          callback: () => { ready = true; setVol(MUSIC_VOLUME); readCurrent(); } });
       },
       get currentId() { return currentId; },
     };
   })();
   soundBtn.addEventListener("click", () => music.toggle());
 
-  /* ---------- Lista de sets do perfil ----------
-     Um segundo widget (oculto) carrega o perfil só para ler as faixas. */
-  function loadList() {
-    const SC = window.SC;
-    if (!SC || !deckList || deckList.dataset.loaded) return;
-    deckList.dataset.loaded = "1";
-    const probe = Object.assign(document.createElement("iframe"), {
-      src: widgetSrc(PROFILE_URL), title: "", tabIndex: -1, allow: "autoplay",
-    });
-    probe.setAttribute("aria-hidden", "true");
-    probe.className = "deck__probe";
-    document.body.append(probe);
-    const w = SC.Widget(probe);
-    let tries = 0;
-    const read = () => w.getSounds((sounds) => {
-      const list = (sounds || []).filter((s) => s && s.title && s.permalink_url);
-      // o widget carrega as faixas aos poucos; espera completar
-      if ((list.length < (sounds || []).length) && tries++ < 8) { setTimeout(read, 700); return; }
-      render(list);
-      probe.remove();
-    });
-    w.bind(SC.Widget.Events.READY, () => setTimeout(read, 600));
-  }
+  /* ---------- Lista de sets do perfil ---------- */
   function render(list) {
     if (!list.length) { deckList.hidden = true; return; }
     deckList.innerHTML = "";
@@ -177,12 +160,6 @@
     });
     deckList.hidden = false;
   }
-  // carrega a lista quando o deck chega perto da tela
-  new IntersectionObserver(([e], obs) => {
-    if (!e.isIntersecting) return;
-    obs.disconnect();
-    loadList();
-  }, { rootMargin: "600px 0px" }).observe(deck);
 
   /* ---------- Intro: boot + entrar com ou sem som ---------- */
   const BOOT = [
@@ -379,8 +356,12 @@
   let duckTimer = 0;
   const duckForVideos = () => {
     clearTimeout(duckTimer);
-    duckTimer = setTimeout(() => music.duck(reels.some((r) =>
-      r.classList.contains("reel--drive") ? r.classList.contains("is-playing") : !$("video", r).paused)), 120);
+    duckTimer = setTimeout(() => {
+      const watching = reels.some((r) =>
+        r.classList.contains("reel--drive") ? r.classList.contains("is-playing") : !$("video", r).paused);
+      document.documentElement.classList.toggle("is-watching", watching);
+      music.duck(watching);
+    }, 120);
   };
 
   reels.forEach((reel) => {
