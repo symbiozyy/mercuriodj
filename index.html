@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Mercúrio · Progressive / Psytrance</title>
   <meta name="description" content="Mercúrio é o projeto de progressive / psytrance de Gilliard Rocha, da zona leste de São Paulo. Basslines agressivos e offbeat de 142 a 145 BPM. Booking pelo WhatsApp.">
-  <meta name="theme-color" content="#05060a">
+  <meta name="theme-color" content="#0a0a0c">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Mercúrio · Progressive / Psytrance">
   <meta property="og:description" content="Basslines agressivos e offbeat de 142 a 145 BPM. Zona leste de São Paulo. Booking pelo WhatsApp.">
@@ -15,28 +15,27 @@
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@300;600;700&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="assets/img/poster-hero.jpg">
   <link rel="stylesheet" href="assets/css/style.css">
   <script>document.documentElement.classList.remove("no-js")</script>
 </head>
 <body>
 
-  <!-- Intro: boot -->
+  <!-- Intro -->
   <div class="intro" id="intro" role="dialog" aria-modal="true" aria-label="Entrar no site">
-    <img src="assets/img/mercurio-simbolo.png" alt="" class="intro__sigil">
-    <pre class="intro__boot" id="boot" aria-hidden="true"></pre>
+    <img src="assets/img/mercurio-logo-branco.png" alt="Mercúrio" class="intro__logo" width="900" height="331">
+    <p class="intro__genre">Progressive · Psytrance</p>
     <div class="intro__actions">
-      <button type="button" class="btn btn--neon intro__enter" id="enterSound" disabled><span data-en="Loading set…">Carregando set…</span></button>
+      <button type="button" class="btn btn--primary intro__enter" id="enterSound" disabled><span data-en="Loading set…">Carregando set…</span></button>
     </div>
   </div>
 
-  <div class="cursor-glow" aria-hidden="true"></div>
-  <div class="scanlines" aria-hidden="true"></div>
 
   <!-- Navegação -->
   <header class="nav" id="nav">
     <a href="#topo" class="nav__brand" aria-label="Mercúrio — início">
-      <img src="assets/img/mercurio-simbolo.png" alt="" width="34" height="34">
+      <img src="assets/img/mercurio-simbolo-branco.png" alt="" width="30" height="30">
       <span>Mercúrio</span>
     </a>
     <nav class="nav__links" id="navLinks" aria-label="Principal">
@@ -63,39 +62,15 @@
         <source src="assets/video/hero-loop.mp4" type="video/mp4">
       </video>
       <div class="hero__veil"></div>
-      <canvas class="hero__grid" id="grid"></canvas>
-
-      <!-- órbitas do átomo (símbolo do Mercúrio) -->
-      <svg class="atom" viewBox="0 0 600 600" aria-hidden="true">
-        <defs>
-          <linearGradient id="neon" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#00f0ff"/><stop offset=".55" stop-color="#7a2cff"/><stop offset="1" stop-color="#ff2bd6"/>
-          </linearGradient>
-        </defs>
-        <g fill="none" stroke="url(#neon)">
-          <circle cx="300" cy="300" r="292" stroke-width="1" opacity=".25"/>
-          <circle cx="300" cy="300" r="270" stroke-width="6" opacity=".35" stroke-dasharray="1 13"/>
-          <path d="M300 18 A282 282 0 0 1 582 300" stroke-width="2" opacity=".7"/>
-          <path d="M300 582 A282 282 0 0 1 18 300" stroke-width="2" opacity=".7"/>
-          <g class="atom__orbit atom__orbit--1"><ellipse cx="300" cy="300" rx="250" ry="88" stroke-width="1.4" opacity=".75"/><circle cx="550" cy="300" r="5" fill="#00f0ff" stroke="none"/></g>
-          <g class="atom__orbit atom__orbit--2"><ellipse cx="300" cy="300" rx="250" ry="88" stroke-width="1.4" opacity=".75" transform="rotate(60 300 300)"/><circle cx="175" cy="83.5" r="5" fill="#ff2bd6" stroke="none"/></g>
-          <g class="atom__orbit atom__orbit--3"><ellipse cx="300" cy="300" rx="250" ry="88" stroke-width="1.4" opacity=".75" transform="rotate(-60 300 300)"/><circle cx="175" cy="516.5" r="5" fill="#b44dff" stroke="none"/></g>
-        </g>
-      </svg>
-
-      <div class="hud hud--tl" aria-hidden="true">SYS://MERCURIO<br><span id="clock">--:--:--</span> BRT</div>
-      <div class="hud hud--tr" aria-hidden="true">LAT −23.55<br>LON −46.47</div>
-      <div class="hud hud--bl" aria-hidden="true">ZL · SÃO PAULO<br>SIGNAL ▮▮▮▮▯</div>
-
       <div class="hero__content">
         <p class="eyebrow reveal" data-en="Psytrance · São Paulo, Brazil">Psytrance · São Paulo, Brasil</p>
         <h1 class="hero__title">
-          <img src="assets/img/mercurio-logo.png" alt="Mercúrio" class="hero__logo" width="900" height="331">
+          <img src="assets/img/mercurio-logo-branco.png" alt="Mercúrio" class="hero__logo" width="900" height="331">
         </h1>
-        <p class="hero__tag reveal glitch" data-text="PROGRESSIVE">PROGRESSIVE</p>
-        <p class="hero__bpm reveal" aria-label="142 a 145 BPM"><span class="hero__bpm-num" id="bpm">142</span><span>BPM</span><small>// 142—145</small></p>
+        <p class="hero__tag reveal">Progressive</p>
+        <p class="hero__bpm reveal">145 BPM</p>
         <div class="hero__ctas reveal">
-          <a href="#booking" class="btn btn--neon" data-en="Book Mercúrio">Contratar Mercúrio</a>
+          <a href="#booking" class="btn btn--primary" data-en="Book Mercúrio">Contratar Mercúrio</a>
           <a href="#set" class="btn btn--ghost" data-en="Play the set">Ouvir o set</a>
         </div>
       </div>
@@ -106,24 +81,22 @@
     <!-- MARQUEE -->
     <div class="marquee" aria-hidden="true">
       <div class="marquee__track">
-        <span>Progressive</span><i>⟁</i><span>Psytrance</span><i>⟁</i><span>142—145 BPM</span><i>⟁</i><span>Zona Leste</span><i>⟁</i><span>Offbeat</span><i>⟁</i>
-        <span>Progressive</span><i>⟁</i><span>Psytrance</span><i>⟁</i><span>142—145 BPM</span><i>⟁</i><span>Zona Leste</span><i>⟁</i><span>Offbeat</span><i>⟁</i>
+        <span>Progressive</span><i>•</i><span>Psytrance</span><i>•</i><span>145 BPM</span><i>•</i><span>Zona Leste</span><i>•</i><span>Offbeat</span><i>•</i>
+        <span>Progressive</span><i>•</i><span>Psytrance</span><i>•</i><span>145 BPM</span><i>•</i><span>Zona Leste</span><i>•</i><span>Offbeat</span><i>•</i>
       </div>
     </div>
 
     <!-- SOBRE -->
     <section class="section about" id="sobre">
       <div class="about__media reveal">
-        <div class="frame tilt">
+        <div class="frame">
           <img src="assets/img/mercurio-retrato.jpg" alt="Mercúrio (Gilliard Rocha) de braços cruzados, moletom preto" loading="lazy" width="341" height="512">
-          <span class="frame__tag">ID // GILLIARD ROCHA</span>
         </div>
-        <img src="assets/img/mercurio-simbolo.png" alt="" class="about__sigil" loading="lazy" aria-hidden="true">
       </div>
 
       <div class="about__text">
         <p class="eyebrow reveal" data-en="01 — Release">01 — Release</p>
-        <h2 class="h2 reveal"><span data-en="Liquid metal,">Metal líquido,</span><br><em class="neon" data-en="pure voltage.">pura voltagem.</em></h2>
+        <h2 class="h2 reveal"><span data-en="Liquid metal,">Metal líquido,</span><br><em class="chrome" data-en="heavy groove.">groove pesado.</em></h2>
 
         <div class="bio">
           <p class="reveal lead" data-en="<strong>Mercúrio</strong> is the progressive / psytrance project created by <strong>Gilliard Rocha</strong>, 24, from the east side of São Paulo.">
@@ -138,7 +111,7 @@
         </div>
 
         <dl class="facts reveal">
-          <div><dt>142—145</dt><dd data-en="BPM on the dancefloor">BPM na pista</dd></div>
+          <div><dt>145 BPM</dt><dd data-en="progressive psytrance">progressive psytrance</dd></div>
           <div><dt>Prog / Psy</dt><dd data-en="style &amp; identity">vertente &amp; identidade</dd></div>
           <div><dt>Zona Leste</dt><dd data-en="home base · São Paulo">base · São Paulo</dd></div>
           <div><dt>2027</dt><dd data-en="calendar open for bookings">agenda aberta para datas</dd></div>
@@ -150,7 +123,7 @@
     <section class="section set" id="set">
       <div class="section__head">
         <p class="eyebrow reveal" data-en="02 — The set">02 — O set</p>
-        <h2 class="h2 reveal"><span data-en="Plug in &amp;">Conecte &amp;</span> <em class="neon" data-en="turn it up.">aumente o volume.</em></h2>
+        <h2 class="h2 reveal"><span data-en="Plug in &amp;">Conecte &amp;</span> <em class="chrome" data-en="turn it up.">aumente o volume.</em></h2>
         <p class="section__sub reveal" data-en="This set is the site's soundtrack. Use the equalizer button at the top to turn it on or off — it fades out by itself when a video plays.">Este set é a trilha do site. Use o botão de equalizador no topo para ligar ou desligar — ele baixa sozinho quando um vídeo toca.</p>
       </div>
 
@@ -160,7 +133,6 @@
           <span class="deck__title" id="deckTitle">MERCÚRIO // SET</span>
           <span class="deck__time" id="deckTime">00:00</span>
         </div>
-        <div class="deck__wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
         <!-- O src é montado pelo main.js (PROFILE_URL + set em destaque FEATURED) -->
         <iframe class="deck__player" id="scPlayer" title="Set do Mercúrio no SoundCloud" allow="autoplay" loading="eager"></iframe>
         <p class="deck__label" data-en="All sets">Todos os sets</p>
@@ -176,7 +148,7 @@
     <section class="section release" id="videos">
       <div class="section__head">
         <p class="eyebrow reveal" data-en="03 — On the dancefloor">03 — Na pista</p>
-        <h2 class="h2 reveal"><span data-en="Feed">Feed</span> <em class="neon" data-en="live.">ao vivo.</em></h2>
+        <h2 class="h2 reveal"><span data-en="Feed">Feed</span> <em class="chrome" data-en="live.">ao vivo.</em></h2>
         <p class="section__sub reveal" data-en="Footage of Mercúrio behind the decks. The music fades out while a video plays and comes back when it stops.">Registros do Mercúrio nas pick-ups. A música baixa enquanto um vídeo toca e volta quando ele para.</p>
       </div>
 
@@ -214,44 +186,31 @@
       </div>
     </section>
 
-    <!-- JORNADA -->
-    <section class="section journey" id="jornada">
-      <div class="section__head">
-        <p class="eyebrow reveal" data-en="04 — The run">04 — A rota</p>
-        <h2 class="h2 reveal"><span data-en="From 142 to 145,">De 142 a 145,</span> <em class="neon" data-en="in three stages.">em três estágios.</em></h2>
+    <!-- SOM -->
+    <section class="section sound-block" id="som">
+      <p class="eyebrow reveal" data-en="04 — The sound">04 — O som</p>
+      <div class="sound-block__grid">
+        <p class="sound-block__bpm reveal" aria-label="145 BPM">145<span>BPM</span></p>
+        <div class="reveal">
+          <h2 class="h2">Progressive <em class="chrome">psytrance.</em></h2>
+          <p class="section__sub" data-en="The groove of progressive with the weight of psytrance: aggressive basslines and offbeat elements that hold the dancefloor at 145 BPM.">O groove do progressive com o peso do psytrance: basslines agressivos e elementos em offbeat que seguram a pista a 145 BPM.</p>
+        </div>
       </div>
-      <ol class="phases">
-        <li class="phase reveal">
-          <span class="phase__num">142</span>
-          <h3>Boot</h3>
-          <p data-en="Progressive groove and rolling bass lock the dancefloor in from the first minute.">Groove progressive e baixo rolante prendem a pista desde o primeiro minuto.</p>
-        </li>
-        <li class="phase reveal">
-          <span class="phase__num">143</span>
-          <h3>Overdrive</h3>
-          <p data-en="The offbeat takes over and the bassline gets teeth: pressure rises with every drop.">O offbeat assume e o bassline ganha dentes: a pressão sobe a cada drop.</p>
-        </li>
-        <li class="phase reveal">
-          <span class="phase__num">145</span>
-          <h3>Meltdown</h3>
-          <p data-en="Full psytrance at the peak. The metal melts — and the dancefloor goes with it.">Psytrance no pico. O metal derrete — e a pista vai junto.</p>
-        </li>
-      </ol>
     </section>
 
     <!-- GIGS -->
     <section class="section gigs" id="gigs">
       <div class="section__head">
-        <p class="eyebrow reveal" data-en="05 — Gig log">05 — Log de pistas</p>
-        <h2 class="h2 reveal"><span data-en="Where the">Onde o</span> <em class="neon" data-en="signal went.">sinal passou.</em></h2>
+        <p class="eyebrow reveal" data-en="05 — Gigs">05 — Gigs</p>
+        <h2 class="h2 reveal"><span data-en="Dancefloors he's">Pistas por onde</span> <em class="chrome" data-en="played.">passou.</em></h2>
       </div>
       <ol class="log">
-        <li class="log__row reveal"><time datetime="2026-09-19">19.09.26</time><strong>Trance Beach</strong><span>São Vicente · SP</span></li>
-        <li class="log__row reveal"><time datetime="2026-08-28">28.08.26</time><strong>Trance in GRU</strong><span>Guarulhos · SP</span></li>
-        <li class="log__row reveal"><time datetime="2026-06-26">26.06.26</time><strong>Alpha Trance</strong><span>TAAL</span></li>
-        <li class="log__row reveal"><time datetime="2026-05-08">08.05.26</time><strong>The Bololoh na Augusta</strong><span>Club B · Rua Augusta · SP</span></li>
-        <li class="log__row reveal"><time>—</time><strong>Friedens Trance</strong><span data-en="announced">anunciado</span></li>
-        <li class="log__row log__row--open reveal"><time>2027</time><strong data-en="Calendar open">Agenda aberta</strong><a href="#booking" data-en="book a date →">reserve uma data →</a></li>
+        <li class="log__row reveal"><strong>Trance Beach</strong><span>São Vicente · SP</span></li>
+        <li class="log__row reveal"><strong>Trance in GRU</strong><span>Guarulhos · SP</span></li>
+        <li class="log__row reveal"><strong>Alpha Trance</strong><span>TAAL</span></li>
+        <li class="log__row reveal"><strong>The Bololoh na Augusta</strong><span>Club B · Rua Augusta · SP</span></li>
+        <li class="log__row reveal"><strong>Friedens Trance</strong><span></span></li>
+        <li class="log__row log__row--open reveal"><strong data-en="2027 calendar open">Agenda 2027 aberta</strong><a href="#booking" data-en="book a date →">reserve uma data →</a></li>
       </ol>
     </section>
 
@@ -259,18 +218,18 @@
     <section class="section gallery" id="galeria">
       <div class="section__head">
         <p class="eyebrow reveal" data-en="06 — Gallery">06 — Galeria</p>
-        <h2 class="h2 reveal"><span data-en="Neon, smoke &amp;">Neon, fumaça &amp;</span> <em class="neon" data-en="dancefloor.">pista.</em></h2>
+        <h2 class="h2 reveal"><span data-en="Light, smoke &amp;">Luz, fumaça &amp;</span> <em class="chrome" data-en="dancefloor.">pista.</em></h2>
       </div>
       <div class="masonry" id="masonry">
         <a href="assets/img/gallery/retrato-fone.jpg" class="tile reveal"><img src="assets/img/gallery/retrato-fone.jpg" alt="Mercúrio estendendo o fone de ouvido para a câmera" loading="lazy" width="341" height="512"></a>
-        <a href="assets/img/gallery/cabine-pioneer.jpg" class="tile reveal"><img src="assets/img/gallery/cabine-pioneer.jpg" alt="Mercúrio mixando nas pick-ups Pioneer" loading="lazy" width="720" height="1280"></a>
-        <a href="assets/img/gallery/pista-aerea.jpg" class="tile reveal"><img src="assets/img/gallery/pista-aerea.jpg" alt="Vista da cabine para a pista do open air" loading="lazy" width="720" height="1280"></a>
+        <a href="assets/img/gallery/cabine-pioneer.jpg" class="tile reveal"><img src="assets/img/gallery/cabine-pioneer.jpg" alt="Mercúrio mixando nas pick-ups Pioneer" loading="lazy" width="600" height="1067"></a>
+        <a href="assets/img/gallery/pista-aerea.jpg" class="tile reveal"><img src="assets/img/gallery/pista-aerea.jpg" alt="Vista da cabine para a pista do open air" loading="lazy" width="600" height="1067"></a>
         <a href="assets/img/gallery/retrato-costas.jpg" class="tile reveal"><img src="assets/img/gallery/retrato-costas.jpg" alt="Mercúrio de costas com fone e tatuagem de mixer no pescoço" loading="lazy" width="377" height="512"></a>
-        <a href="assets/img/gallery/palco-deco.jpg" class="tile reveal"><img src="assets/img/gallery/palco-deco.jpg" alt="Palco decorado e pista dançando" loading="lazy" width="720" height="1280"></a>
-        <a href="assets/img/gallery/cabine-mao.jpg" class="tile reveal"><img src="assets/img/gallery/cabine-mao.jpg" alt="Mercúrio com a mão na lona da cabine durante o set" loading="lazy" width="720" height="1280"></a>
+        <a href="assets/img/gallery/palco-deco.jpg" class="tile reveal"><img src="assets/img/gallery/palco-deco.jpg" alt="Palco decorado e pista dançando" loading="lazy" width="600" height="1067"></a>
+        <a href="assets/img/gallery/cabine-mao.jpg" class="tile reveal"><img src="assets/img/gallery/cabine-mao.jpg" alt="Mercúrio com a mão na lona da cabine durante o set" loading="lazy" width="600" height="1067"></a>
         <a href="assets/img/gallery/retrato-oculos.jpg" class="tile reveal"><img src="assets/img/gallery/retrato-oculos.jpg" alt="Mercúrio de óculos escuros, mão no queixo" loading="lazy" width="341" height="512"></a>
-        <a href="assets/img/gallery/pista-danca.jpg" class="tile reveal"><img src="assets/img/gallery/pista-danca.jpg" alt="Público dançando no open air" loading="lazy" width="720" height="1280"></a>
-        <a href="assets/img/gallery/deco-logo.jpg" class="tile reveal"><img src="assets/img/gallery/deco-logo.jpg" alt="Logo do Mercúrio sobre a decoração da tenda" loading="lazy" width="720" height="1280"></a>
+        <a href="assets/img/gallery/pista-danca.jpg" class="tile reveal"><img src="assets/img/gallery/pista-danca.jpg" alt="Público dançando no open air" loading="lazy" width="600" height="1067"></a>
+        <a href="assets/img/gallery/deco-logo.jpg" class="tile reveal"><img src="assets/img/gallery/deco-logo.jpg" alt="Logo do Mercúrio sobre a decoração da tenda" loading="lazy" width="600" height="1067"></a>
       </div>
     </section>
 
@@ -279,7 +238,7 @@
       <div class="booking__glow" aria-hidden="true"></div>
       <div class="section__head">
         <p class="eyebrow reveal" data-en="07 — Booking &amp; collabs">07 — Booking &amp; collabs</p>
-        <h2 class="h2 reveal"><span data-en="Bring Mercúrio to">Leve o Mercúrio para</span> <em class="neon" data-en="your dancefloor.">a sua pista.</em></h2>
+        <h2 class="h2 reveal"><span data-en="Bring Mercúrio to">Leve o Mercúrio para</span> <em class="chrome" data-en="your dancefloor.">a sua pista.</em></h2>
       </div>
 
       <div class="booking__grid">
@@ -288,7 +247,7 @@
           <p class="agency__name"><a href="https://wa.me/5511940530379" target="_blank" rel="noopener">(11) 94053‑0379</a></p>
           <p class="agency__text" data-en="Festivals, open airs, club nights and afters. Get in touch for dates, fee and technical rider — 2027 calendar is open.">Festivais, open airs, club nights e afters. Chame para datas, cachê e rider técnico — agenda de 2027 aberta.</p>
           <div class="agency__ctas">
-            <a class="btn btn--neon" href="https://wa.me/5511940530379" target="_blank" rel="noopener" data-en="Talk on WhatsApp">Falar no WhatsApp</a>
+            <a class="btn btn--primary" href="https://wa.me/5511940530379" target="_blank" rel="noopener" data-en="Talk on WhatsApp">Falar no WhatsApp</a>
             <a class="btn btn--ghost" href="mailto:djm3036@gmail.com">djm3036@gmail.com</a>
           </div>
           <div class="collab">
@@ -314,7 +273,7 @@
             <label><span data-en="Your name">Seu nome</span><input name="nome" required autocomplete="name"></label>
           </div>
           <label><span data-en="Message (optional)">Mensagem (opcional)</span><textarea name="msg" rows="3"></textarea></label>
-          <button class="btn btn--neon btn--full" type="submit" data-en="Send on WhatsApp">Enviar pelo WhatsApp</button>
+          <button class="btn btn--primary btn--full" type="submit" data-en="Send on WhatsApp">Enviar pelo WhatsApp</button>
           <p class="brief__status" id="briefStatus" role="status" aria-live="polite"></p>
         </form>
       </div>
@@ -324,23 +283,22 @@
     <section class="section presskit" id="presskit">
       <div class="section__head">
         <p class="eyebrow reveal" data-en="08 — Press kit">08 — Press kit</p>
-        <h2 class="h2 reveal"><span data-en="Material for">Material para</span> <em class="neon" data-en="flyers &amp; press.">flyers &amp; imprensa.</em></h2>
+        <h2 class="h2 reveal"><span data-en="Material for">Material para</span> <em class="chrome" data-en="flyers &amp; press.">flyers &amp; imprensa.</em></h2>
       </div>
       <ul class="kit">
-        <li class="reveal"><a href="assets/press/mercurio-logo-branco.png" download><span class="kit__thumb kit__thumb--logo"><img src="assets/img/mercurio-logo.png" alt="" loading="lazy"></span><span class="kit__name">Logo Mercúrio</span><span class="kit__type" data-en="PNG · transparent">PNG · transparente</span></a></li>
-        <li class="reveal"><a href="assets/press/mercurio-simbolo.png" download><span class="kit__thumb kit__thumb--logo"><img src="assets/img/mercurio-simbolo.png" alt="" loading="lazy"></span><span class="kit__name" data-en="Symbol">Símbolo</span><span class="kit__type">PNG · 420px</span></a></li>
+        <li class="reveal"><a href="assets/press/mercurio-logo-branco.png" download><span class="kit__thumb kit__thumb--logo"><img src="assets/img/mercurio-logo-branco.png" alt="" loading="lazy"></span><span class="kit__name">Logo Mercúrio</span><span class="kit__type" data-en="PNG · transparent">PNG · transparente</span></a></li>
+        <li class="reveal"><a href="assets/press/mercurio-simbolo.png" download><span class="kit__thumb kit__thumb--logo"><img src="assets/press/mercurio-simbolo.png" alt="" loading="lazy"></span><span class="kit__name" data-en="Symbol">Símbolo</span><span class="kit__type">PNG · 420px</span></a></li>
         <li class="reveal"><a href="assets/press/mercurio-foto-1.jpg" download><span class="kit__thumb"><img src="assets/img/mercurio-retrato.jpg" alt="" loading="lazy"></span><span class="kit__name" data-en="Photo · portrait">Foto · retrato</span><span class="kit__type">JPG</span></a></li>
         <li class="reveal"><a href="assets/press/mercurio-foto-2.jpg" download><span class="kit__thumb"><img src="assets/img/gallery/retrato-costas.jpg" alt="" loading="lazy"></span><span class="kit__name" data-en="Photo · back">Foto · costas</span><span class="kit__type">JPG</span></a></li>
         <li class="reveal"><a href="assets/press/mercurio-foto-3.jpg" download><span class="kit__thumb"><img src="assets/img/gallery/retrato-fone.jpg" alt="" loading="lazy"></span><span class="kit__name" data-en="Photo · headphones">Foto · fone</span><span class="kit__type">JPG</span></a></li>
         <li class="reveal"><a href="assets/press/mercurio-ao-vivo.jpg" download><span class="kit__thumb"><img src="assets/img/gallery/cabine-pioneer.jpg" alt="" loading="lazy"></span><span class="kit__name" data-en="Photo · live">Foto · ao vivo</span><span class="kit__type">JPG</span></a></li>
-        <li class="reveal"><button type="button" id="copyBio"><span class="kit__thumb kit__thumb--text">&gt;_</span><span class="kit__name" data-en="Short bio">Bio curta</span><span class="kit__type" data-en="click to copy">clique para copiar</span></button></li>
+        <li class="reveal"><button type="button" id="copyBio"><span class="kit__thumb kit__thumb--text">Aa</span><span class="kit__name" data-en="Short bio">Bio curta</span><span class="kit__type" data-en="click to copy">clique para copiar</span></button></li>
       </ul>
     </section>
   </main>
 
   <footer class="footer">
-    <img src="assets/img/mercurio-simbolo.png" alt="" class="footer__sigil" loading="lazy">
-    <img src="assets/img/mercurio-logo.png" alt="Mercúrio" class="footer__logo" loading="lazy">
+    <img src="assets/img/mercurio-logo-branco.png" alt="Mercúrio" class="footer__logo" loading="lazy" width="900" height="331">
     <p class="footer__line" data-en="See you on the dancefloor.">Nos vemos na pista.</p>
     <div class="footer__links">
       <a href="https://instagram.com/_mercuriodj" target="_blank" rel="noopener">Instagram</a>
