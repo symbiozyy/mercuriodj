@@ -198,7 +198,7 @@
     ["> MERCURIO.SYS v2.6", ""],
     ["> carregando bassline", " ........ [OK]"],
     ["> sincronizando offbeat", " ...... [OK]"],
-    ["> BPM 145", " ................. [OK]"],
+    ["> modo progressive", " .......... [OK]"],
     ["> sinal: zona leste · SP", " ...... [OK]"],
   ];
   const boot = $("#boot");
