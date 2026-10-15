@@ -406,8 +406,8 @@
 
   /* ---------- Bio curta (press kit) ---------- */
   const BIO = {
-    pt: "Mercúrio é o projeto de progressive / psytrance de Gilliard Rocha, 24 anos, da zona leste de São Paulo. Basslines agressivos e elementos em offbeat levam a pista dos 142 aos 145 BPM. Booking: (11) 94053-0379 · djm3036@gmail.com · @_mercuriodj",
-    en: "Mercúrio is the progressive / psytrance project of Gilliard Rocha, 24, from the east side of São Paulo. Aggressive basslines and offbeat elements push the dancefloor from 142 to 145 BPM. Booking: +55 11 94053-0379 · djm3036@gmail.com · @_mercuriodj",
+    pt: "Mercúrio é o projeto de progressive / psytrance de Gilliard Rocha, 24 anos, da zona leste de São Paulo. Basslines agressivos e elementos em offbeat seguram a pista a 145 BPM. Booking: (11) 94053-0379 · djm3036@gmail.com · @_mercuriodj",
+    en: "Mercúrio is the progressive / psytrance project of Gilliard Rocha, 24, from the east side of São Paulo. Aggressive basslines and offbeat elements hold the dancefloor at 145 BPM. Booking: +55 11 94053-0379 · djm3036@gmail.com · @_mercuriodj",
   };
   const bioBtn = $("#copyBio");
   bioBtn.addEventListener("click", async () => {
