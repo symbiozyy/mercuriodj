@@ -1,1 +1,37 @@
-# mercuriodj
+# Mercúrio · Progressive / Psytrance
+
+Site oficial do **Mercúrio**, projeto de progressive / psytrance de Gilliard Rocha (zona leste de São Paulo).
+Booking direto pelo WhatsApp (11) 94053-0379 · djm3036@gmail.com · [@_mercuriodj](https://instagram.com/_mercuriodj).
+
+## Estrutura
+
+- `index.html` — página única (hero, release/bio, set do SoundCloud, vídeos, rota 142→145, log de gigs, galeria, booking, press kit)
+- `assets/css/style.css` — identidade visual cyberpunk (neon ciano/violeta/magenta do logo, HUD, scanlines, glitch)
+- `assets/js/main.js` — intro de boot, grid neon do hero, player do SoundCloud com fade, vídeos (local + Google Drive), idioma PT/EN, lightbox, pedido de booking pelo WhatsApp
+- `assets/video/` — vídeo de release (H.264) e loop do hero
+- `assets/img/` — fotos, frames do vídeo, logo e símbolo
+- `assets/press/` — arquivos para download no press kit
+
+## Trocar o set do site
+
+Em `assets/js/main.js`, ajuste `SET_URL` (set que toca ao entrar com som) e `PROFILE_URL`
+(perfil cujas faixas aparecem na lista "Todos os sets" do deck). Se o link curto
+`on.soundcloud.com/...` não carregar, use a URL completa do set (`soundcloud.com/mercurio-dj/nome-do-set`).
+
+## Vídeos do Google Drive
+
+Na seção de vídeos do `index.html`, cada `<article class="reel reel--drive" data-drive="...">` recebe o link
+de compartilhamento do Drive. O arquivo precisa estar como **"Qualquer pessoa com o link"**.
+Para mais vídeos, copie o bloco e troque o link. A música do site abaixa quando o vídeo é aberto
+e volta ao clicar em "parar".
+
+## Publicar no GitHub Pages
+
+Settings → Pages → *Deploy from a branch* → `main` / `(root)`.
+O site fica em `https://symbiozyy.github.io/mercuriodj/`.
+
+## Rodar localmente
+
+```sh
+python3 -m http.server 8000
+```
