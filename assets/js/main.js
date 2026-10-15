@@ -403,7 +403,7 @@
         stopOthers(reel);
         const f = Object.assign(document.createElement("iframe"), {
           src: `https://drive.google.com/file/d/${reel.dataset.driveId}/preview`,
-          title: $("h3", reel).textContent, allow: "autoplay; fullscreen", allowFullscreen: true,
+          title: "Vídeo do Mercúrio", allow: "autoplay; fullscreen", allowFullscreen: true,
         });
         $(".reel__phone", reel).append(f);
         reel.classList.add("is-playing");
