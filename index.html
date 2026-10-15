@@ -16,14 +16,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css?v=202610152023">
+  <link rel="stylesheet" href="assets/css/style.css?v=202610152029">
   <script>document.documentElement.classList.remove("no-js")</script>
 </head>
 <body>
 
   <!-- Intro: boot -->
   <div class="intro" id="intro" role="dialog" aria-modal="true" aria-label="Entrar no site">
-    <img src="assets/img/mercurio-simbolo.png" alt="" class="intro__sigil">
+    <img src="assets/img/mercurio-logo.png" alt="Mercúrio" class="intro__sigil" width="900" height="331">
     <pre class="intro__boot" id="boot" aria-hidden="true"></pre>
     <div class="intro__actions">
       <button type="button" class="btn btn--neon intro__enter" id="enterSound" disabled><span data-en="Loading set…">Carregando set…</span></button>
@@ -36,8 +36,7 @@
   <!-- Navegação -->
   <header class="nav" id="nav">
     <a href="#topo" class="nav__brand" aria-label="Mercúrio — início">
-      <img src="assets/img/mercurio-simbolo.png" alt="" width="34" height="34">
-      <span>Mercúrio</span>
+      <img src="assets/img/mercurio-logo.png" alt="" width="900" height="331">
     </a>
     <nav class="nav__links" id="navLinks" aria-label="Principal">
       <a href="#sobre" data-en="About">Sobre</a>
@@ -118,7 +117,6 @@
           <img src="assets/img/mercurio-retrato.jpg" alt="Mercúrio (Gilliard Rocha) de braços cruzados, moletom preto" loading="lazy" width="341" height="512">
           <span class="frame__tag">ID // GILLIARD ROCHA</span>
         </div>
-        <img src="assets/img/mercurio-simbolo.png" alt="" class="about__sigil" loading="lazy" aria-hidden="true">
       </div>
 
       <div class="about__text">
@@ -185,10 +183,20 @@
         <!--
           Vídeos do Google Drive: cole o link de compartilhamento em data-drive
           (ex.: https://drive.google.com/file/d/XXXXXXXX/view?usp=sharing).
+          Link de pasta (drive.google.com/drive/folders/...) também funciona:
+          o player mostra a pasta; o ideal é o link do arquivo de vídeo.
           No Drive, o arquivo precisa estar como "Qualquer pessoa com o link".
           Slots com data-drive vazio ficam ocultos. Copie o bloco para mais vídeos.
         -->
         <article class="reel reel--drive reel--offset reveal" data-drive="https://drive.google.com/file/d/1mVY89wAxMpC79Vojcwh3M3T5zKDzDOgL/view?usp=drivesdk">
+          <div class="reel__phone">
+            <img class="reel__poster" alt="" loading="lazy">
+            <button class="reel__play" type="button" aria-label="Reproduzir vídeo do Google Drive"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+          </div>
+          <button class="reel__stop" type="button" data-en="■ Close video">■ Fechar vídeo</button>
+        </article>
+
+        <article class="reel reel--drive reveal" data-drive="https://drive.google.com/drive/folders/1ecUHYvEyKkw3OXKP1oeVUBVaOlHki7N_" data-poster="assets/img/gallery/cabine-pioneer.jpg">
           <div class="reel__phone">
             <img class="reel__poster" alt="" loading="lazy">
             <button class="reel__play" type="button" aria-label="Reproduzir vídeo do Google Drive"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
@@ -298,8 +306,6 @@
         <h2 class="h2 reveal"><span data-en="Material for">Material para</span> <em class="neon" data-en="flyers &amp; press.">flyers &amp; imprensa.</em></h2>
       </div>
       <ul class="kit">
-        <li class="reveal"><a href="assets/press/mercurio-logo-branco.png" download aria-label="Baixar logo Mercúrio (PNG)"><span class="kit__thumb kit__thumb--logo"><img src="assets/img/mercurio-logo.png" alt="" loading="lazy"></span></a></li>
-        <li class="reveal"><a href="assets/press/mercurio-simbolo.png" download aria-label="Baixar símbolo Mercúrio (PNG)"><span class="kit__thumb kit__thumb--logo"><img src="assets/img/mercurio-simbolo.png" alt="" loading="lazy"></span></a></li>
         <li class="reveal"><a href="assets/press/mercurio-foto-1.jpg" download aria-label="Baixar foto: retrato"><span class="kit__thumb"><img src="assets/img/mercurio-retrato.jpg" alt="" loading="lazy"></span></a></li>
         <li class="reveal"><a href="assets/press/mercurio-foto-2.jpg" download aria-label="Baixar foto: costas"><span class="kit__thumb"><img src="assets/img/gallery/retrato-costas.jpg" alt="" loading="lazy"></span></a></li>
         <li class="reveal"><a href="assets/press/mercurio-foto-3.jpg" download aria-label="Baixar foto: fone"><span class="kit__thumb"><img src="assets/img/gallery/retrato-fone.jpg" alt="" loading="lazy"></span></a></li>
@@ -312,7 +318,6 @@
   </main>
 
   <footer class="footer">
-    <img src="assets/img/mercurio-simbolo.png" alt="" class="footer__sigil" loading="lazy">
     <img src="assets/img/mercurio-logo.png" alt="Mercúrio" class="footer__logo" loading="lazy">
     <p class="footer__line" data-en="See you on the dancefloor.">Nos vemos na pista.</p>
     <div class="footer__links">
@@ -343,6 +348,6 @@
   </div>
 
   <script src="https://w.soundcloud.com/player/api.js"></script>
-  <script src="assets/js/main.js?v=202610152023" defer></script>
+  <script src="assets/js/main.js?v=202610152029" defer></script>
 </body>
 </html>

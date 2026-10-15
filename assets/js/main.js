@@ -358,15 +358,21 @@
   const reelsWrap = $("#reels");
   const driveId = (v) => {
     v = (v || "").trim();
-    const m = v.match(/\/d\/([\w-]{20,})/) || v.match(/[?&]id=([\w-]{20,})/);
+    const m = v.match(/\/d\/([\w-]{20,})/) || v.match(/\/folders\/([\w-]{20,})/) || v.match(/[?&]id=([\w-]{20,})/);
     return m ? m[1] : (/^[\w-]{20,}$/.test(v) ? v : "");
   };
+  // link de arquivo abre no player do Drive; link de pasta mostra a pasta
+  const driveSrc = (reel) => reel.dataset.driveFolder
+    ? `https://drive.google.com/embeddedfolderview?id=${reel.dataset.driveId}#grid`
+    : `https://drive.google.com/file/d/${reel.dataset.driveId}/preview`;
   $$(".reel--drive", reelsWrap).forEach((reel) => {
     const id = driveId(reel.dataset.drive);
     if (!id) { reel.hidden = true; return; }
     reel.dataset.driveId = id;
+    if (/\/folders\//.test(reel.dataset.drive)) reel.dataset.driveFolder = "1";
     const poster = $(".reel__poster", reel);
-    if (!poster.getAttribute("src")) {
+    if (reel.dataset.poster) poster.src = reel.dataset.poster;
+    else if (!poster.getAttribute("src")) {
       // miniatura gerada pelo próprio Drive; se falhar, usa um pôster local
       poster.addEventListener("error", () => { poster.src = "assets/img/poster-hero.jpg"; }, { once: true });
       poster.src = `https://drive.google.com/thumbnail?id=${id}&sz=w720`;
@@ -402,7 +408,7 @@
       $(".reel__play", reel).addEventListener("click", () => {
         stopOthers(reel);
         const f = Object.assign(document.createElement("iframe"), {
-          src: `https://drive.google.com/file/d/${reel.dataset.driveId}/preview`,
+          src: driveSrc(reel),
           title: "Vídeo do Mercúrio", allow: "autoplay; fullscreen", allowFullscreen: true,
         });
         $(".reel__phone", reel).append(f);
