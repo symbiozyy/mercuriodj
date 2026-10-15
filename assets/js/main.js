@@ -238,6 +238,9 @@
     io.observe(el);
   });
 
+  // modo vídeo (ver duckForVideos): animações em JS ficam paradas
+  const watchingNow = () => document.documentElement.classList.contains("is-watching");
+
   /* ---------- Brilho do cursor ---------- */
   const glow = $(".cursor-glow");
   let mx = innerWidth / 2, my = innerHeight / 2;
@@ -245,6 +248,7 @@
     let gx = mx, gy = my;
     addEventListener("pointermove", (e) => { mx = e.clientX; my = e.clientY; }, { passive: true });
     const follow = () => {
+      if (watchingNow()) { requestAnimationFrame(follow); return; }
       gx += (mx - gx) * 0.12; gy += (my - gy) * 0.12;
       glow.style.transform = `translate3d(${gx}px, ${gy}px, 0)`;
       requestAnimationFrame(follow);
@@ -280,7 +284,7 @@
   addEventListener("resize", resize);
   new IntersectionObserver(([e]) => { heroVisible = e.isIntersecting; }).observe(hero);
   const draw = () => {
-    if (heroVisible) {
+    if (heroVisible && !watchingNow()) {
       ctx.clearRect(0, 0, W, H);
       const horizon = H * 0.64 + (my / innerHeight - 0.5) * 20 * dpr;
       const vx = W / 2 + (mx / innerWidth - 0.5) * 80 * dpr;

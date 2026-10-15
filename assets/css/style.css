@@ -375,7 +375,12 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .reel--drive.is-playing .reel__stop { display: block; }
 /* enquanto um vídeo toca, nada fica por cima dele */
 .reel.is-playing .reel__phone::after { box-shadow: inset 0 0 0 1px rgba(0, 240, 255, .45); }
-.is-watching .scanlines, .is-watching .cursor-glow { opacity: 0; transition: opacity .4s; }
+/* Modo vídeo: enquanto um vídeo toca, o site para de animar e de compor
+   camadas por cima, para o vídeo ter todo o processamento do aparelho. */
+.is-watching .scanlines, .is-watching .cursor-glow { display: none; }
+.is-watching *, .is-watching *::before, .is-watching *::after { animation-play-state: paused !important; }
+.is-watching .nav.is-scrolled { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(5, 6, 10, .96); }
+.is-watching .hero__grid { visibility: hidden; }
 .reel__meta { padding: 24px 6px 0; }
 .reel__tag { display: inline-block; font: 400 11px/1 var(--f-mono); letter-spacing: .2em; text-transform: uppercase; color: var(--acid); border: 1px solid rgba(232, 255, 58, .4); padding: 7px 10px; }
 .reel__meta h3 { margin: 14px 0 6px; font: 700 clamp(20px, 2.2vw, 28px)/1.2 var(--f-display); text-transform: uppercase; }
