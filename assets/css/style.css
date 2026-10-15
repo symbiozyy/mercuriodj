@@ -565,3 +565,18 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .hero__bpm { gap: 10px; }
 .hero__bpm small { font: inherit; font-size: .8em; color: var(--magenta); letter-spacing: .2em; }
 .reel--drive .reel__phone { background: var(--ink) url("../img/poster-hero.jpg") center / cover; }
+
+/* ---------- Crédito Amplitude Lab ---------- */
+.credit {
+  position: relative; display: inline-flex; align-items: center; gap: 12px; margin-top: 6px; padding: 10px 18px 10px 10px; text-align: left;
+  background: rgba(0, 240, 255, .03); box-shadow: inset 0 0 0 1px var(--line);
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  transition: background .3s, box-shadow .3s;
+}
+.credit:hover { background: rgba(0, 240, 255, .07); box-shadow: inset 0 0 0 1px rgba(0, 240, 255, .5); }
+.credit img { width: 40px; height: 40px; border-radius: 10px; flex: none; }
+.credit small { display: block; font: 400 10px/1.3 var(--f-mono); letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+.credit b { display: block; margin-top: 2px; font: 600 15px/1.2 var(--f-display); letter-spacing: .04em; color: var(--text); transition: color .3s; }
+.credit:hover b { color: var(--cyan); }
+.credit em { display: block; margin-top: 2px; font-style: normal; font-size: 12px; color: var(--muted); }
+.credit u { display: block; margin-top: 4px; text-decoration: none; font: 400 11px/1.3 var(--f-mono); letter-spacing: .04em; color: var(--cyan); }
