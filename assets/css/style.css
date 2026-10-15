@@ -278,7 +278,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 
 /* ---------- Sobre ---------- */
 .about { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(40px, 7vw, 110px); align-items: start; }
-.about__media { position: sticky; top: 110px; }
+.about__media { position: relative; }
+.about { align-items: center; }
 .frame {
   position: relative; overflow: hidden; transform-style: preserve-3d; transition: transform .3s;
   clip-path: polygon(40px 0, 100% 0, 100% calc(100% - 40px), calc(100% - 40px) 100%, 0 100%, 0 40px);
