@@ -191,28 +191,9 @@
     deckList.hidden = false;
   }
 
-  /* ---------- Intro: boot + entrar (sempre com som) ----------
+  /* ---------- Intro: entrar (sempre com som) ----------
      O botão só libera quando o set está pronto: assim o play acontece no
      próprio clique e o navegador não bloqueia o áudio. */
-  const BOOT = [
-    ["> MERCURIO.SYS v2.6", ""],
-    ["> carregando bassline", " ........ [OK]"],
-    ["> sincronizando offbeat", " ...... [OK]"],
-    ["> modo progressive", " .......... [OK]"],
-    ["> sinal: zona leste · SP", " ...... [OK]"],
-  ];
-  const boot = $("#boot");
-  if (reduced) boot.innerHTML = BOOT.map(([a, b]) => `${a}<span class="ok">${b}</span>`).join("\n");
-  else {
-    let i = 0;
-    const line = () => {
-      if (i >= BOOT.length || document.documentElement.classList.contains("is-loaded")) return;
-      const [a, b] = BOOT[i++];
-      boot.innerHTML += (i > 1 ? "\n" : "") + a + `<span class="ok">${b}</span>`;
-      setTimeout(line, 260);
-    };
-    setTimeout(line, 200);
-  }
   const enterBtn = $("#enterSound");
   const unlock = () => {
     if (!enterBtn.disabled) return;
