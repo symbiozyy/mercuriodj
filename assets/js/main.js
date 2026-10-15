@@ -40,6 +40,7 @@
     const SC = window.SC;
     let widget = null, ready = false, playing = false, wanted = false, ducked = false;
     let vol = 0, fadeTimer = 0, playCheck = 0, currentId = null;
+    const readyCbs = [];
 
     const setVol = (v) => { vol = v; widget?.setVolume(v); };
     const ramp = (to, done) => {
@@ -81,12 +82,20 @@
 
     if (!SC || !frame) {
       deckHint.textContent = t("Não foi possível carregar o SoundCloud.", "Could not load SoundCloud.");
-      return { start() {}, toggle() {}, duck() {}, load() {} };
+      return { start() {}, toggle() {}, duck() {}, load() {}, whenReady(cb) { cb(); } };
     }
 
-    frame.src = widgetSrc(PROFILE_URL);
-    widget = SC.Widget(frame);
-    const markReady = () => { ready = true; deckHint.textContent = ""; readCurrent(); sync(); };
+    const markReady = () => {
+      if (ready) return;
+      ready = true; deckHint.textContent = ""; readCurrent(); sync();
+      readyCbs.splice(0).forEach((cb) => cb());
+    };
+    // Guarda o set em destaque e a lista: nas próximas visitas o player abre
+    // direto nele, sem passar pelo perfil (fica pronto bem mais rápido).
+    const CACHE_KEY = "mercurio-sc";
+    let cached = null;
+    try { cached = JSON.parse(store.get(CACHE_KEY)); } catch { /* cache inválido */ }
+    if (cached?.featured !== FEATURED || !cached?.url) cached = null;
     // o widget do perfil entrega as faixas aos poucos: espera completar,
     // monta a lista e troca o player para o set em destaque
     const boot = () => {
@@ -97,13 +106,34 @@
         if ((!list.length || list.length < sounds.length) && tries++ < 12) { setTimeout(read, 500); return; }
         render(list);
         const pick = list.find((s) => norm(s.title).includes(norm(FEATURED)));
-        if (pick) widget.load(pick.permalink_url, { ...PLAYER_OPTS, auto_play: false, callback: markReady });
-        else markReady();
+        if (!pick) { markReady(); return; }
+        store.set(CACHE_KEY, JSON.stringify({
+          featured: FEATURED, url: pick.permalink_url,
+          list: list.map(({ id, title, permalink_url, duration, full_duration }) => ({ id, title, permalink_url, duration: duration || full_duration })),
+        }));
+        widget.load(pick.permalink_url, { ...PLAYER_OPTS, auto_play: false, callback: markReady });
       });
       read();
     };
+    // o iframe precisa do src antes de virar widget
+    frame.src = widgetSrc(cached ? cached.url : PROFILE_URL);
+    widget = SC.Widget(frame);
     let booted = false;
-    widget.bind(SC.Widget.Events.READY, () => { if (!booted) { booted = true; boot(); } });
+    widget.bind(SC.Widget.Events.READY, () => {
+      if (booted) return;
+      booted = true;
+      if (cached) markReady(); else boot();
+    });
+    if (cached) {
+      render(cached.list || []);
+      // se o set guardado não abrir, refaz pelo perfil
+      setTimeout(() => {
+        if (ready) return;
+        store.set(CACHE_KEY, "");
+        booted = true;
+        widget.load(PROFILE_URL, { ...PLAYER_OPTS, auto_play: false, callback: boot });
+      }, 8000);
+    }
     const slow = setTimeout(() => {
       if (!ready) deckHint.textContent = t("Carregando o set…", "Loading the set…");
     }, 4000);
@@ -136,6 +166,7 @@
         widget.load(url, { ...PLAYER_OPTS, auto_play: true,
           callback: () => { ready = true; setVol(MUSIC_VOLUME); readCurrent(); } });
       },
+      whenReady(cb) { if (ready) cb(); else readyCbs.push(cb); },
       get currentId() { return currentId; },
     };
   })();
@@ -153,7 +184,6 @@
       b.dataset.id = s.id;
       b.innerHTML = `<span class="deck__idx">${String(i + 1).padStart(2, "0")}</span><span class="deck__name"></span><span class="deck__dur">${fmt(s.duration || s.full_duration || 0)}</span>`;
       $(".deck__name", b).textContent = s.title;
-      b.classList.toggle("is-current", String(s.id) === String(music.currentId));
       b.addEventListener("click", () => music.load(s.permalink_url));
       li.append(b);
       deckList.append(li);
@@ -161,7 +191,9 @@
     deckList.hidden = false;
   }
 
-  /* ---------- Intro: boot + entrar com ou sem som ---------- */
+  /* ---------- Intro: boot + entrar (sempre com som) ----------
+     O botão só libera quando o set está pronto: assim o play acontece no
+     próprio clique e o navegador não bloqueia o áudio. */
   const BOOT = [
     ["> MERCURIO.SYS v2.6", ""],
     ["> carregando bassline", " ........ [OK]"],
@@ -181,13 +213,21 @@
     };
     setTimeout(line, 200);
   }
-  const enter = (withSound) => {
-    if (withSound) music.start();
-    document.documentElement.classList.add("is-loaded");
+  const enterBtn = $("#enterSound");
+  const unlock = () => {
+    if (!enterBtn.disabled) return;
+    enterBtn.disabled = false;
+    const label = $("span", enterBtn);
+    label.dataset.pt = "Entrar"; label.dataset.en = "Enter";
+    label.textContent = t("Entrar", "Enter");
+    enterBtn.focus({ preventScroll: true });
   };
-  $("#enterSound").addEventListener("click", () => enter(true));
-  $("#enterMute").addEventListener("click", () => enter(false));
-  $("#enterSound").focus({ preventScroll: true });
+  music.whenReady(unlock);
+  setTimeout(unlock, 12000); // SoundCloud lento ou fora do ar: entra mesmo assim
+  enterBtn.addEventListener("click", () => {
+    music.start();
+    document.documentElement.classList.add("is-loaded");
+  });
 
   /* ---------- Navegação ---------- */
   const nav = $("#nav");

@@ -7,16 +7,18 @@ Booking direto pelo WhatsApp (11) 94053-0379 · djm3036@gmail.com · [@_mercurio
 
 - `index.html` — página única (hero, release/bio, set do SoundCloud, vídeos, rota 142→145, log de gigs, galeria, booking, press kit)
 - `assets/css/style.css` — identidade visual cyberpunk (neon ciano/violeta/magenta do logo, HUD, scanlines, glitch)
-- `assets/js/main.js` — intro de boot, grid neon do hero, player do SoundCloud com fade, vídeos (local + Google Drive), idioma PT/EN, lightbox, pedido de booking pelo WhatsApp
+- `assets/js/main.js` — intro de boot (entra com som), grid neon do hero, player do SoundCloud com fade, vídeos (local + Google Drive), idioma PT/EN, lightbox, pedido de booking pelo WhatsApp
 - `assets/video/` — vídeo de release (H.264) e loop do hero
 - `assets/img/` — fotos, frames do vídeo, logo e símbolo
 - `assets/press/` — arquivos para download no press kit
 
 ## Trocar o set do site
 
-Em `assets/js/main.js`, ajuste `SET_URL` (set que toca ao entrar com som) e `PROFILE_URL`
-(perfil cujas faixas aparecem na lista "Todos os sets" do deck). Se o link curto
-`on.soundcloud.com/...` não carregar, use a URL completa do set (`soundcloud.com/mercurio-dj/nome-do-set`).
+O site entra sempre com som: o botão "Entrar" da intro só libera quando o set está carregado,
+para o play acontecer no próprio clique (senão o navegador bloqueia o áudio).
+
+Em `assets/js/main.js`, `PROFILE_URL` é o perfil cujas faixas aparecem na lista "Todos os sets"
+e `FEATURED` é parte do título do set que abre e toca ao entrar (hoje `"The Next Chapter"`).
 
 ## Vídeos do Google Drive
 

@@ -98,8 +98,10 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .intro__boot::after { content: "▋"; animation: blink 1s steps(1) infinite; color: var(--magenta); }
 .is-loaded .intro, .no-js .intro { opacity: 0; visibility: hidden; }
 .intro__actions { position: relative; display: grid; justify-items: center; gap: 14px; margin-top: 10px; opacity: 0; animation: fadeUp 1s var(--ease) 1.4s forwards; }
-.intro__mute { font: 400 12px/1 var(--f-mono); letter-spacing: .2em; text-transform: uppercase; color: var(--muted); padding: 8px; transition: color .3s; }
-.intro__mute:hover { color: var(--cyan); }
+.intro__enter { min-width: 240px; }
+.intro__enter:disabled { cursor: progress; color: var(--cyan); background: rgba(0, 240, 255, .08); box-shadow: inset 0 0 0 1px rgba(0, 240, 255, .5); }
+.intro__enter:disabled span { animation: blink 1.2s steps(1) infinite; }
+.intro__enter:disabled:hover { transform: none; }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 @keyframes blink { 50% { opacity: 0; } }
 @keyframes flicker { 0%, 100% { opacity: 1; } 41% { opacity: .35; } 42% { opacity: 1; } 77% { opacity: .6; } 78% { opacity: 1; } }
