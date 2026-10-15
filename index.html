@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css?v=202610152035">
+  <link rel="stylesheet" href="assets/css/style.css?v=202610152037">
   <script>document.documentElement.classList.remove("no-js")</script>
 </head>
 <body>
@@ -196,7 +196,15 @@
           <button class="reel__stop" type="button" data-en="■ Close video">■ Fechar vídeo</button>
         </article>
 
-        <article class="reel reel--drive reveal" data-drive="https://drive.google.com/file/d/1fTOztXOgO8DgbJxa0u4QAIaCuxQ0u2j8/view?usp=drivesdk">
+        <article class="reel reel--drive reveal" data-drive="https://drive.google.com/file/d/1fTOztXOgO8DgbJxa0u4QAIaCuxQ0u2j8/view?usp=drivesdk" data-fallback="assets/img/gallery/cabine-pioneer.jpg">
+          <div class="reel__phone">
+            <img class="reel__poster" alt="" loading="lazy">
+            <button class="reel__play" type="button" aria-label="Reproduzir vídeo do Google Drive"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+          </div>
+          <button class="reel__stop" type="button" data-en="■ Close video">■ Fechar vídeo</button>
+        </article>
+
+        <article class="reel reel--drive reel--offset reveal" data-drive="https://drive.google.com/file/d/1elbu3jBjOI1FrKtDtoDvSO-cPFat4zdv/view?usp=drivesdk" data-fallback="assets/img/gallery/pista-aerea.jpg">
           <div class="reel__phone">
             <img class="reel__poster" alt="" loading="lazy">
             <button class="reel__play" type="button" aria-label="Reproduzir vídeo do Google Drive"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
@@ -346,6 +354,6 @@
   </div>
 
   <script src="https://w.soundcloud.com/player/api.js"></script>
-  <script src="assets/js/main.js?v=202610152035" defer></script>
+  <script src="assets/js/main.js?v=202610152037" defer></script>
 </body>
 </html>

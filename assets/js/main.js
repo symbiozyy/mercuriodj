@@ -374,7 +374,7 @@
     if (reel.dataset.poster) poster.src = reel.dataset.poster;
     else if (!poster.getAttribute("src")) {
       // miniatura gerada pelo próprio Drive; se falhar, usa um pôster local
-      poster.addEventListener("error", () => { poster.src = "assets/img/poster-hero.jpg"; }, { once: true });
+      poster.addEventListener("error", () => { poster.src = reel.dataset.fallback || "assets/img/poster-hero.jpg"; }, { once: true });
       poster.src = `https://drive.google.com/thumbnail?id=${id}&sz=w720`;
     }
   });
